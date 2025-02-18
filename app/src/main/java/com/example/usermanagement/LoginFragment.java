@@ -86,44 +86,71 @@ public class LoginFragment extends Fragment {
         etPassword = getView().findViewById(R.id.etPasswordLogin);
         btnLogin = getView().findViewById(R.id.btnLoginLogin);
         tvSignupLink = getView().findViewById(R.id.tvSignupLinkLogin);
-        tvSignupLink.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                gotoSignupFragment();
-            }
-        });
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Data Validation
-                String username = etUsername.getText().toString();
-                String password = etPassword.getText().toString();
-                if(username.trim().isEmpty() && password.trim().isEmpty()){
-                    Toast.makeText(getActivity(), "Some fields are empty!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                // Login procedure
-                fbs.getAuth().signInWithEmailAndPassword(username, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                    @Override
-                    public void onSuccess(AuthResult authResult) {
-                        Toast.makeText(getActivity(), "Success!", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                ) .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getActivity(), "Failed", Toast.LENGTH_SHORT).show();
-                    }
-                });
+//        tvSignupLink.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                gotoSignupFragment();
+//            }
+//        });
+        tvSignupLink.setOnClickListener(view -> gotoSignupFragment());
+//        btnLogin.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                // Data Validation
+//                String username = etUsername.getText().toString();
+//                String password = etPassword.getText().toString();
+//                if(username.trim().isEmpty() && password.trim().isEmpty()){
+//                    Toast.makeText(getActivity(), "Some fields are empty!", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//                // Login procedure
+//                fbs.getAuth().signInWithEmailAndPassword(username, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+//                    @Override
+//                    public void onSuccess(AuthResult authResult) {
+//                        Toast.makeText(getActivity(), "Success!", Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//                ) .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Toast.makeText(getActivity(), "Failed", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//
+//            }
+//        });
 
+        btnLogin.setOnClickListener(view -> {
+            String username = etUsername.getText().toString();
+            String password = etPassword.getText().toString();
+
+            if (username.trim().isEmpty() || password.trim().isEmpty()) {
+                Toast.makeText(getActivity(), "Please enter both username and password!", Toast.LENGTH_SHORT).show();
+                return;
             }
+
+            fbs.getAuth().signInWithEmailAndPassword(username, password)
+                    .addOnSuccessListener(authResult ->
+                            Toast.makeText(getActivity(), "Login successful!", Toast.LENGTH_SHORT).show()
+                    )
+                    .addOnFailureListener(e ->
+                            Toast.makeText(getActivity(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show()
+                    );
         });
+
 
     }
 
     private void gotoSignupFragment() {
-        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.frameLayoutMain, new SignupFragment());
-        ft.commit();
+        try{
+            FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.frameLayoutMain, new SignupFragment());
+            ft.commit();
+
+        }catch(Exception e){
+            System.out.println("goto Sign upp error message");
+        }
+
+
     }
 }
