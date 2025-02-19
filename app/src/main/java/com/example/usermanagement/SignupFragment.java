@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -94,11 +95,12 @@ public class SignupFragment extends Fragment {
                 }
                 // Signup procedure
                 fbs.getAuth().createUserWithEmailAndPassword(username, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                    @Override
-                    public void onSuccess(AuthResult authResult) {
-                        Toast.makeText(getActivity(), "Success!", Toast.LENGTH_SHORT).show();
-                    }
-                }
+                                                                                                          @Override
+                                                                                                          public void onSuccess(AuthResult authResult) {
+                                                                                                              Toast.makeText(getActivity(), "Success!", Toast.LENGTH_SHORT).show();
+                                                                                                              gotoAddFragment();
+                                                                                                          }
+                                                                                                      }
                 ) .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
@@ -108,6 +110,13 @@ public class SignupFragment extends Fragment {
 
             }
         });
+
+    }
+
+    private void gotoAddFragment() {
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.frameLayoutMain, new AddFragment());
+        ft.commit();
 
     }
 }

@@ -6,7 +6,7 @@
     tools:context=".AllSalon">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvRestaurantsRestFragment"
+        android:id="@+id/rvSalonFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </FrameLayout>

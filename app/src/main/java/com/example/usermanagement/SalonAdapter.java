@@ -34,7 +34,7 @@ public class SalonAdapter extends RecyclerView.Adapter<SalonAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull SalonAdapter.MyViewHolder holder, int position) {
-       Salon rest = restList.get(position);
+        Salon rest = restList.get(position);
         holder.tvName.setText(rest.getName());
         holder.tvPhone.setText(rest.getPhone());
     }

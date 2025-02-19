@@ -17,7 +17,7 @@ import android.widget.EditText;
 public class SalonFragment extends Fragment {
 
     private EditText etName;
-    
+
 
 
     // TODO: Rename parameter arguments, choose names that match

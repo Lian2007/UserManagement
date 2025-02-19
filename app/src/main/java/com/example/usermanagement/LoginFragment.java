@@ -26,7 +26,7 @@ import com.google.firebase.auth.AuthResult;
 public class LoginFragment extends Fragment {
 
     private EditText etUsername, etPassword;
-    private TextView tvSignupLink;
+    private TextView tvSignupLink , tvForgetPassLink;
     private Button btnLogin;
     private  FirebaseServices fbs;
 
@@ -86,39 +86,10 @@ public class LoginFragment extends Fragment {
         etPassword = getView().findViewById(R.id.etPasswordLogin);
         btnLogin = getView().findViewById(R.id.btnLoginLogin);
         tvSignupLink = getView().findViewById(R.id.tvSignupLinkLogin);
-//        tvSignupLink.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                gotoSignupFragment();
-//            }
-//        });
+        tvForgetPassLink = getView().findViewById(R.id.tvForgotPasswordLinkLogin);
         tvSignupLink.setOnClickListener(view -> gotoSignupFragment());
-//        btnLogin.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                // Data Validation
-//                String username = etUsername.getText().toString();
-//                String password = etPassword.getText().toString();
-//                if(username.trim().isEmpty() && password.trim().isEmpty()){
-//                    Toast.makeText(getActivity(), "Some fields are empty!", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//                // Login procedure
-//                fbs.getAuth().signInWithEmailAndPassword(username, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-//                    @Override
-//                    public void onSuccess(AuthResult authResult) {
-//                        Toast.makeText(getActivity(), "Success!", Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//                ) .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Toast.makeText(getActivity(), "Failed", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//
-//            }
-//        });
+        tvForgetPassLink.setOnClickListener(view -> gotoForgetPassword());
+
 
         btnLogin.setOnClickListener(view -> {
             String username = etUsername.getText().toString();
@@ -130,8 +101,13 @@ public class LoginFragment extends Fragment {
             }
 
             fbs.getAuth().signInWithEmailAndPassword(username, password)
-                    .addOnSuccessListener(authResult ->
-                            Toast.makeText(getActivity(), "Login successful!", Toast.LENGTH_SHORT).show()
+                    .addOnSuccessListener(authResult ->{
+                                Toast.makeText(getActivity(), "Login successful!", Toast.LENGTH_SHORT).show();
+                                gotoAddFragment();
+
+
+                            }
+
                     )
                     .addOnFailureListener(e ->
                             Toast.makeText(getActivity(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show()
@@ -141,16 +117,22 @@ public class LoginFragment extends Fragment {
 
     }
 
+    private void gotoForgetPassword() {
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.frameLayoutMain, new ForgotPasswordFragment());
+        ft.commit();
+    }
+
+    private void gotoAddFragment() {
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.frameLayoutMain, new AddFragment());
+        ft.commit();
+
+    }
+
     private void gotoSignupFragment() {
-        try{
-            FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.frameLayoutMain, new SignupFragment());
-            ft.commit();
-
-        }catch(Exception e){
-            System.out.println("goto Sign upp error message");
-        }
-
-
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.frameLayoutMain, new SignupFragment());
+        ft.commit();
     }
 }

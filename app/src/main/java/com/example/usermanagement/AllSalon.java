@@ -85,7 +85,7 @@ public class AllSalon extends Fragment {
 
         fbs = FirebaseServices.getInstance();
         salonArrayList = new ArrayList<>();
-        rvSalon = getView().findViewById(R.id.rvSalonSalonFragment);
+        rvSalon = getView().findViewById(R.id.rvSalonFragment);
         adapter = new SalonAdapter(getActivity(), salonArrayList);
         rvSalon.setAdapter(adapter);
         rvSalon.setHasFixedSize(true);
@@ -110,5 +110,4 @@ public class AllSalon extends Fragment {
             }
         });
     }
-}
 }
