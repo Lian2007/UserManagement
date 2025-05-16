@@ -37,8 +37,8 @@ public class AddFragment extends Fragment {
 
 
 
-
     // TODO: Rename parameter arguments, choose names that match
+
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -133,8 +133,8 @@ public class AddFragment extends Fragment {
                     return;
                 }
                 Salon salon = new Salon(SalonName, Address, Phone, Website);
-                System.out.println("salon:"+salon);
-                fbs.getFire().collection("Salons").add(salon).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                //System.out.println("salon:"+salon);
+                fbs.getFire().collection("salons").add(salon).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                                                                        @Override
                                                                                        public void onSuccess(DocumentReference documentReference) {
                                                                                            Toast.makeText(getActivity(), "Successfully added your salon!", Toast.LENGTH_SHORT).show();
@@ -144,7 +144,7 @@ public class AddFragment extends Fragment {
                 ).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.e("Failure Add animal: ", e.getMessage());
+                        Log.e("Failure Add salon: ", e.getMessage());
 
                     }
 
@@ -167,6 +167,7 @@ public class AddFragment extends Fragment {
             Uri selectedImageUri = data.getData();
             if (selectedImageUri != null) {
                 img.setImageURI(selectedImageUri);
+
             }
         }
     }

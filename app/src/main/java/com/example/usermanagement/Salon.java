@@ -1,11 +1,18 @@
 package com.example.usermanagement;
 
-public class Salon {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
+public class Salon implements Parcelable
+{
 
     private String name;
     private String address;
     private String phone;
     private String website;
+    private String photo;
 
     public Salon() {
     }
@@ -15,7 +22,28 @@ public class Salon {
         this.address = address;
         this.phone = phone;
         this.website = website;
+        this.photo = photo;
     }
+
+    protected Salon(Parcel in) {
+        name = in.readString();
+        address = in.readString();
+        phone = in.readString();
+        website = in.readString();
+        photo = in.readString();
+    }
+
+    public static final Creator<Salon> CREATOR = new Creator<Salon>() {
+        @Override
+        public Salon createFromParcel(Parcel in) {
+            return new Salon(in);
+        }
+
+        @Override
+        public Salon[] newArray(int size) {
+            return new Salon[size];
+        }
+    };
 
     public String getWebsite() {
         return website;
@@ -49,6 +77,14 @@ public class Salon {
         this.name = name;
     }
 
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
     @Override
     public String toString() {
         return "Salon{" +
@@ -56,7 +92,22 @@ public class Salon {
                 ", address='" + address + '\'' +
                 ", phone='" + phone + '\'' +
                 ", website='" + website + '\'' +
+                ", photo='" + photo + '\'' +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel parcel, int i) {
+        parcel.writeString(name);
+        parcel.writeString(address);
+        parcel.writeString(phone);
+        parcel.writeString(website);
+        parcel.writeString(photo);
     }
 }
 
