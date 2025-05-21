@@ -125,7 +125,7 @@ public class LoginFragment extends Fragment {
 
     private void gotoAddFragment() {
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.frameLayoutMain, new AddFragment());
+        ft.replace(R.id.frameLayoutMain, new AddTreatmentFragment());
         ft.commit();
 
     }
