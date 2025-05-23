@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigation"
+    app:startDestination="@id/loginFragment">
+
+    <!-- Login/Signup/Forgot Password -->
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.usermanagement.LoginFragment"
+        android:label="Login">
+        <action
+            android:id="@+id/action_loginFragment_to_signupFragment"
+            app:destination="@id/signupFragment"/>
+        <action
+            android:id="@+id/action_loginFragment_to_forgotPasswordFragment"
+            app:destination="@id/forgotPasswordFragment"/>
+        <action
+            android:id="@+id/action_loginFragment_to_chooseSalonTypeFragment"
+            app:destination="@id/chooseSalonTypeFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/signupFragment"
+        android:name="com.example.usermanagement.SignupFragment"
+        android:label="Signup">
+        <action
+            android:id="@+id/action_signupFragment_to_loginFragment"
+            app:destination="@id/loginFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/forgotPasswordFragment"
+        android:name="com.example.usermanagement.ForgotPasswordFragment"
+        android:label="Forgot Password">
+        <action
+            android:id="@+id/action_forgotPasswordFragment_to_loginFragment"
+            app:destination="@id/loginFragment"/>
+    </fragment>
+
+    <!-- Add Treatment (optional, not needed in login flow) -->
+    <fragment
+        android:id="@+id/addTreatmentFragment"
+        android:name="com.example.usermanagement.AddTreatmentFragment"
+        android:label="Add Treatment" />
+
+    <!-- Booking Flow Fragments -->
+    <fragment
+        android:id="@+id/chooseSalonTypeFragment"
+        android:name="com.example.usermanagement.ChooseSalonTypeFragment"
+        android:label="Choose Salon Type">
+        <action
+            android:id="@+id/action_chooseSalonTypeFragment_to_salonListFragment"
+            app:destination="@id/salonListFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/salonListFragment"
+        android:name="com.example.usermanagement.SalonListFragment"
+        android:label="Salon List">
+        <action
+            android:id="@+id/action_salonListFragment_to_treatmentListFragment"
+            app:destination="@id/treatmentListFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/treatmentListFragment"
+        android:name="com.example.usermanagement.TreatmentListFragment"
+        android:label="Treatment List">
+        <action
+            android:id="@+id/action_treatmentListFragment_to_datePickerFragment"
+            app:destination="@id/datePickerFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/datePickerFragment"
+        android:name="com.example.usermanagement.DatePickerFragment"
+        android:label="Choose Date">
+        <action
+            android:id="@+id/action_datePickerFragment_to_timePickerFragment"
+            app:destination="@id/timePickerFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/timePickerFragment"
+        android:name="com.example.usermanagement.TimePickerFragment"
+        android:label="Choose Time">
+        <action
+            android:id="@+id/action_timePickerFragment_to_summaryFragment"
+            app:destination="@id/summaryFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/summaryFragment"
+        android:name="com.example.usermanagement.SummaryFragment"
+        android:label="Summary"/>
+</navigation>

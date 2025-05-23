@@ -1,7 +1,7 @@
-package com.example.usermanagement;
+/* package com.example.usermanagement;
 
-import android.content.Intent;
-import android.net.Uri;
+//import android.content.Intent;
+//import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -23,12 +23,12 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 
-/**
+//**
  * A simple {@link Fragment} subclass.
  * Use the {@link AddFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AddFragment extends Fragment {
+/*public class AddFragment extends Fragment {
     private EditText etPhoneNum;
     private TextView tvSalonName, tvWebsite, tvAddress;
     private Button btnAdd;
@@ -60,7 +60,7 @@ public class AddFragment extends Fragment {
      * @return A new instance of fragment AddFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static AddFragment newInstance(String param1, String param2) {
+   /* public static AddFragment newInstance(String param1, String param2) {
         AddFragment fragment = new AddFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
@@ -171,7 +171,6 @@ public class AddFragment extends Fragment {
             }
         }
     }
+} */
 
 
-
-}

@@ -1,11 +1,8 @@
 package com.example.usermanagement;
 
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,61 +10,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.navigation.Navigation;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.AuthResult;
-
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link LoginFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class LoginFragment extends Fragment {
 
     private EditText etUsername, etPassword;
-    private TextView tvSignupLink , tvForgetPassLink;
+    private TextView tvSignupLink, tvForgetPassLink;
     private Button btnLogin;
-    private  FirebaseServices fbs;
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private FirebaseServices fbs;
 
     public LoginFragment() {
         // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment LoginFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static LoginFragment newInstance(String param1, String param2) {
-        LoginFragment fragment = new LoginFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -80,16 +33,15 @@ public class LoginFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        // connecting components
         fbs = FirebaseServices.getInstance();
         etUsername = getView().findViewById(R.id.etUsernameLogin);
         etPassword = getView().findViewById(R.id.etPasswordLogin);
         btnLogin = getView().findViewById(R.id.btnLoginLogin);
         tvSignupLink = getView().findViewById(R.id.tvSignupLinkLogin);
         tvForgetPassLink = getView().findViewById(R.id.tvForgotPasswordLinkLogin);
-        tvSignupLink.setOnClickListener(view -> gotoSignupFragment());
-        tvForgetPassLink.setOnClickListener(view -> gotoForgetPassword());
 
+        tvSignupLink.setOnClickListener(view -> gotoSignupFragment(view));
+        tvForgetPassLink.setOnClickListener(view -> gotoForgetPassword(view));
 
         btnLogin.setOnClickListener(view -> {
             String username = etUsername.getText().toString();
@@ -101,38 +53,26 @@ public class LoginFragment extends Fragment {
             }
 
             fbs.getAuth().signInWithEmailAndPassword(username, password)
-                    .addOnSuccessListener(authResult ->{
-                                Toast.makeText(getActivity(), "Login successful!", Toast.LENGTH_SHORT).show();
-                                gotoAddFragment();
-
-
-                            }
-
-                    )
+                    .addOnSuccessListener(authResult -> {
+                        Toast.makeText(getActivity(), "Login successful!", Toast.LENGTH_SHORT).show();
+                        gotoAddFragment(view);
+                    })
                     .addOnFailureListener(e ->
                             Toast.makeText(getActivity(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show()
                     );
         });
-
-
     }
 
-    private void gotoForgetPassword() {
-        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.frameLayoutMain, new ForgotPasswordFragment());
-        ft.commit();
+    // Use Navigation Component for all navigations!
+    private void gotoForgetPassword(View view) {
+        Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_forgotPasswordFragment);
     }
 
-    private void gotoAddFragment() {
-        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.frameLayoutMain, new AddTreatmentFragment());
-        ft.commit();
-
+    private void gotoAddFragment(View view) {
+        Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_chooseSalonTypeFragment);
     }
 
-    private void gotoSignupFragment() {
-        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.frameLayoutMain, new SignupFragment());
-        ft.commit();
+    private void gotoSignupFragment(View view) {
+        Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_signupFragment);
     }
 }

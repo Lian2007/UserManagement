@@ -1,89 +1,60 @@
 package com.example.usermanagement;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.net.Uri;
-import android.util.Log;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
-import java.util.UUID;
+import java.util.ArrayList;
 
 public class Utils {
+    public static ArrayList<Salon> getAllSalonsByType(String type) {
+        ArrayList<Salon> salons = new ArrayList<>();
+        ArrayList<Treatment> maleTreatments = new ArrayList<>();
+        maleTreatments.add(new Treatment("Men's Haircut", 50, "Basic men's cut", 0.5, ""));
+        maleTreatments.add(new Treatment("Beard Trim", 30, "Trim and shape beard", 0.2, ""));
 
-    private static Utils instance;
 
-    private FirebaseServices fbs;
-    private String imageStr;
+        ArrayList<Treatment> femaleTreatments = new ArrayList<>();
+        femaleTreatments.add(new Treatment("Women's Haircut", 70, "Basic women's cut", 0.7, ""));
+        femaleTreatments.add(new Treatment("Hair Coloring", 120, "Full color service", 1.2, ""));
 
-    public Utils()
-    {
-        fbs = FirebaseServices.getInstance();
-    }
-
-    public static Utils getInstance()
-    {
-        if (instance == null)
-            instance = new Utils();
-
-        return instance;
-    }
-    public void showMessageDialog(Context context, String message) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(message);
-        //builder.setMessage(message);
-
-        // Add a button to dismiss the dialog box
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                // You can perform additional actions here if needed
-                dialog.dismiss();
-            }
-        });
-
-        // Create and show the AlertDialog
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
-
-    public void uploadImage(Context context, Uri selectedImageUri) {
-        if (selectedImageUri != null) {
-            imageStr = "images/" + UUID.randomUUID() + ".jpg"; //+ selectedImageUri.getLastPathSegment();
-            StorageReference imageRef = fbs.getStorage().getReference().child("images/" + selectedImageUri.getLastPathSegment());
-
-            UploadTask uploadTask = imageRef.putFile(selectedImageUri);
-            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            //selectedImageUri = uri;
-                            fbs.setSelectedImageURL(uri);
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.e("Utils: uploadImage: ", e.getMessage());
-                        }
-                    });
-                    Toast.makeText(context, "Image uploaded successfully", Toast.LENGTH_SHORT).show();
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(context, "Failed to upload image", Toast.LENGTH_SHORT).show();
-                }
-            });
+        if ("men".equals(type)) {
+            salons.add(new Salon("Men Salon 1", "050-0000000", "men", maleTreatments));
+            salons.add(new Salon("Men Salon 2", "050-1111111", "men", maleTreatments));
         } else {
-            Toast.makeText(context, "Please choose an image first", Toast.LENGTH_SHORT).show();
+            salons.add(new Salon("Women Salon 1", "050-2222222", "women", femaleTreatments));
+            salons.add(new Salon("Women Salon 2", "050-3333333", "women", femaleTreatments));
         }
+        return salons;
+    }
+
+    // ---- Add this method for image upload ----
+    public static void uploadImage(Context context, Uri imageUri, UploadImageCallback callback) {
+        if (imageUri == null) {
+            Toast.makeText(context, "No image selected!", Toast.LENGTH_SHORT).show();
+            if (callback != null) callback.onFailure(new Exception("No image selected"));
+            return;
+        }
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        String fileName = "treatments/" + System.currentTimeMillis() + ".jpg";
+        StorageReference storageRef = storage.getReference().child(fileName);
+        storageRef.putFile(imageUri)
+                .addOnSuccessListener(taskSnapshot -> storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                    // Optionally set the download URL in FirebaseServices:
+                    FirebaseServices.getInstance().setSelectedImageURL(uri);
+                    if (callback != null) callback.onSuccess(uri.toString());
+                }))
+                .addOnFailureListener(e -> {
+                    Toast.makeText(context, "Upload failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    if (callback != null) callback.onFailure(e);
+                });
+    }
+
+    public interface UploadImageCallback {
+        void onSuccess(String downloadUrl);
+        void onFailure(Exception e);
     }
 }

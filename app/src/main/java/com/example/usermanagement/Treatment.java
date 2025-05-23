@@ -1,12 +1,14 @@
 package com.example.usermanagement;
 
-public class Treatment {
+import java.io.Serializable;
+
+public class Treatment implements Serializable {  // <-- Implements Serializable!
     private int id;
     private String name;
-    private  int price ;
-    private  String description;
+    private int price;
+    private String description;
     private double time;
-    private String pic ;
+    private String pic;
 
     public String getPic() {
         return pic;
@@ -16,12 +18,12 @@ public class Treatment {
         this.pic = pic;
     }
 
-    public Treatment(String name, int price, String description, double time,String pic) {
+    public Treatment(String name, int price, String description, double time, String pic) {
         this.name = name;
         this.price = price;
         this.description = description;
         this.time = time;
-        this.pic=pic;
+        this.pic = pic;
     }
 
     public Treatment() {

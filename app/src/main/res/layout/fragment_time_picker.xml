@@ -1,19 +1,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
     android:gravity="center"
     android:padding="32dp">
 
-    <Button
-        android:id="@+id/btnMenSalon"
+    <TextView
+        android:id="@+id/tvTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Men's Salon"/>
+        android:text="Choose Time"
+        android:textSize="24sp"
+        android:padding="24dp"/>
     <Button
-        android:id="@+id/btnWomenSalon"
+        android:id="@+id/btnNext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Women's Salon"
-        android:layout_marginStart="16dp"/>
+        android:text="Next"/>
 </LinearLayout>
