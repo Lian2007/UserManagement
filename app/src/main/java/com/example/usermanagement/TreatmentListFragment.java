@@ -28,16 +28,25 @@ public class TreatmentListFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerViewTreatmentList);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // Dummy data; replace with Firestore as needed
-        treatmentList.add(new Treatment("Test Treatment", 100, "Test Description", 1.5, "https://your-url.com/test.jpg"));
+        // استقبال كائن الصالون من الـ Bundle القادم من الشاشة السابقة
+        Bundle args = getArguments();
+        if (args != null && args.containsKey("salon")) {
+            Salon selectedSalon = (Salon) args.getSerializable("salon");
+            if (selectedSalon != null && selectedSalon.getTreatments() != null) {
+                treatmentList.addAll(selectedSalon.getTreatments());
+            }
+        }
 
-        // Treatment click navigates to DatePickerFragment with treatment data in bundle
+        // مستمع الضغط على العلاج
         TreatmentAdapter.OnTreatmentClickListener listener = new TreatmentAdapter.OnTreatmentClickListener() {
             @Override
             public void onTreatmentClick(Treatment treatment) {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("selectedTreatment", treatment);
-                // If you have salonType, add: bundle.putString("salonType", ...);
+                // يمكنك أيضاً تمرير الصالون لو احتجته لاحقاً
+                if (args != null && args.containsKey("salon")) {
+                    bundle.putSerializable("salon", args.getSerializable("salon"));
+                }
                 Navigation.findNavController(view).navigate(R.id.action_treatmentListFragment_to_datePickerFragment, bundle);
             }
         };

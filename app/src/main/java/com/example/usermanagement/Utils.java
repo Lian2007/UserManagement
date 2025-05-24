@@ -22,11 +22,13 @@ public class Utils {
         femaleTreatments.add(new Treatment("Hair Coloring", 120, "Full color service", 1.2, ""));
 
         if ("men".equals(type)) {
-            salons.add(new Salon("Men Salon 1", "050-0000000", "men", maleTreatments));
-            salons.add(new Salon("Men Salon 2", "050-1111111", "men", maleTreatments));
+            salons.add(new Salon("Sobhi Salon", "050-0000000", "men", maleTreatments));
+            salons.add(new Salon("Yousef Salon", "050-1111111", "men", maleTreatments));
+            salons.add(new Salon("Ahmad Salon", "050-2222222", "men", maleTreatments));
         } else {
-            salons.add(new Salon("Women Salon 1", "050-2222222", "women", femaleTreatments));
-            salons.add(new Salon("Women Salon 2", "050-3333333", "women", femaleTreatments));
+            salons.add(new Salon("Yasmen Salon", "050-4444444", "women", femaleTreatments));
+            salons.add(new Salon("Sawsan Salon", "050-3333333", "women", femaleTreatments));
+            salons.add(new Salon("Talia Salon", "050-7777777", "women", femaleTreatments));
         }
         return salons;
     }

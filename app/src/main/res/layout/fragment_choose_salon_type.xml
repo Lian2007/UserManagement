@@ -10,12 +10,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="סלון גברים"/>
+        android:text="Men Salon"/>
     <Button
         android:id="@+id/btnWomenSalon"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="סלון נשים"
+        android:text="Women Salon"
         android:layout_marginStart="16dp"/>
 </LinearLayout>
